@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod2
+  labels:
+    app: web
+spec:
+  containers:
+  - name: myctn2 
+    image: nginx
+    resources:
+      limits: #최대 사용 가능 용량
+        cpu: 500m
+        memory: 128Mi
+      requests: #촤소보장장
+        cpu: 250m
+        memory: 64Mi
+    ports:
+    - containerPort:  80
+      name:  http
+    volumeMounts:
+    - name: myvol2    #아래에 있는 volumes에 있는 거 끌어다가 컨테이너의 /usr/share/nginx/html 연결할 것이다
+      mountPath: /usr/share/nginx/html
+  volumes:
+    - name: myvol2
+      persistentVolumeClaim:
+        claimName: dev1-pvc
